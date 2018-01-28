@@ -57,4 +57,15 @@ public class ClientService {
         return debt.getId();
     }
 
+    @ShellMethod("Reduce the amount of debt:")
+    @Transactional
+    public void reduceOfDebt(@ShellOption UUID clientId, @ShellOption UUID debtID, @ShellOption BigDecimal value) {
+        Client client = clientRepository.findOne(clientId);
+        Debt debt = new Debt();
+        debt.setId(debtID);
+        debt.setClient(client);
+        Debt point = client.getDebts().get(client.getDebts().indexOf(debt));
+        BigDecimal newValue = point.getValue().subtract(value);
+        point.setValue(newValue);
+    }
 }

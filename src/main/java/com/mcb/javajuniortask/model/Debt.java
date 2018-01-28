@@ -19,4 +19,21 @@ public class Debt {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Debt debt = (Debt) o;
+
+        if (!id.equals(debt.id)) return false;
+        return client.equals(debt.client);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + client.hashCode();
+        return result;
+    }
 }
